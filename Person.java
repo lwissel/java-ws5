@@ -11,6 +11,11 @@ public class Person {
   private String gender;
   private int age;
 
+  /** full constructor
+   * @param name Name
+   * @param gender Gender
+   * @param age Age
+   */
   public Person(String name, String gender, int age) {
     this.name = name;
     this.gender = gender;
@@ -32,7 +37,7 @@ public class Person {
   /**
    * @return age
    */
-  public int age() {
+  public int getAge() {
     return this.age;
   }
 
@@ -66,7 +71,6 @@ public class Person {
   /**
    * @return if p1 equals p2
    */
-  @Override
     public boolean equals(Person p) {
       if (p == null) { 
         return false;
