@@ -113,4 +113,12 @@ public class DoublyLinkedList {
   public static DoublyLinkedList empty() {
     return new DoublyLinkedList();
   }
+
+
+  /*
+  @Override
+    public String toString(DoublyLinkedList dll) {
+     
+    }
+    */
 }
