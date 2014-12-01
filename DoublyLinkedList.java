@@ -74,12 +74,8 @@ public class DoublyLinkedList {
       public String toString() {
         if (this.person == null)
           return null;
-        else if (this.leftNode == null)
-          return "NULL <-> " + this.person.toString() + " <-> " + this.rightNode.getPerson().getName();
-        else if (this.rightNode == null)
-          return this.leftNode.getPerson().getName() + " <-> " + this.person.toString() + " <-> NULL";
         else
-          return this.leftNode.getPerson().getName() + " <-> " + this.person.toString() + " <-> " + this.rightNode.getPerson().getName();
+          return this.person.getName();
       }
 
   } // end inner class
@@ -88,6 +84,8 @@ public class DoublyLinkedList {
   private int depth;
   private Node headNode;
   private Node tailNode;
+
+  private DoublyLinkedList dll;
 
   /** default empty constructor
    * creates NULL - HEAD(null) - TAIL(null) - NULL
@@ -186,5 +184,34 @@ public class DoublyLinkedList {
   // tostring
   // equals
   // neighbours of opposite gender?
+  // empty
+  public static DoublyLinkedList empty() {
+    return new DoublyLinkedList();
+  }
   // cons
+  public static DoublyLinkedList cons(Person person, DoublyLinkedList dll) {
+    DoublyLinkedList newDll = dll;
+    newDll.addHead(person);
+    return newDll;
+  }
+
+  /** public to string method
+   * @return toString representation
+   * here we print all Nodes including their references
+   */
+  @Override
+    public String toString(){
+          String s = "";
+         
+          Node tmpNode = headNode.getRightNode();
+          while(tmpNode != tailNode){
+              s += "Left: " + tmpNode.getLeftNode() + ", Value: " + tmpNode + ", Right: " + tmpNode.getRightNode() + "\n";
+              tmpNode = tmpNode.getRightNode();
+          }
+           
+          s += " ";
+           
+          return s;
+    }
 }
+  

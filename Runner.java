@@ -16,8 +16,20 @@ public class Runner {
     Person tim = new Person("tim", "m", 24);
     
     DoublyLinkedList dll = new DoublyLinkedList();
-    dll.addTail(tim);
     dll.addHead(tim);
+    dll.addHead(ann);
+    dll.addHead(joe);
+    dll.addHead(mary);
+    System.out.println(dll);
 
+    
+    DoublyLinkedList dll2 = DoublyLinkedList.cons(tom, 
+        DoublyLinkedList.cons(ann, 
+          DoublyLinkedList.cons(joe, 
+            DoublyLinkedList.cons(mary, 
+              DoublyLinkedList.cons(tim, 
+               DoublyLinkedList.empty())))));
+  
+    System.out.println(dll2);
   }
 }
