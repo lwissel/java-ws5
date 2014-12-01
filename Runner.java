@@ -16,6 +16,8 @@ public class Runner {
     Person tim = new Person("tim", "m", 24);
     
     DoublyLinkedList dll = new DoublyLinkedList();
+    dll.addTail(tim);
+    dll.addHead(tim);
 
   }
 }

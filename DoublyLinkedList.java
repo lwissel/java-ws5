@@ -29,13 +29,6 @@ public class DoublyLinkedList {
       this.rightNode = rightNode;
     }
 
-    /** start constructor
-     * @param person generates node [null - person - null]
-     */
-    public Node(Person person) {
-      this(null, person, null);
-    }
-
     /** GETTERS
      * @return node of next node
      */
@@ -159,17 +152,39 @@ public class DoublyLinkedList {
     depth++;
   }
 
-  /** public methods to add elements at(left of) head
+  /** public methods to add elements at (right of) head
    * @param p is the Person to add
    */
   public void addHead(Person person) {
-    this.addPersonLeftOf(this.headNode, person);
+    this.addPersonRightOf(this.headNode, person);
   }
 
-  /** public methods to add elements at(right of) tail
+  /** public methods to add elements at (left of) tail
    * @param p is the Person to add
    */
   public void addTail(Person person) {
-    this.addPersonRightOf(this.tailNode, person);
+    this.addPersonLeftOf(this.tailNode, person);
   }
+
+  /** Getter for depth
+   * @return depth of list = size = number of person objects
+   */
+  public int getDepth() {
+    return this.depth;
+  }
+
+  /** is the list empty?
+   * @return true if depth is 0
+   */
+  public boolean isEmpty() {
+      return (this.depth == 0);
+  }
+
+
+  // right
+  // left
+  // tostring
+  // equals
+  // neighbours of opposite gender?
+  // cons
 }
