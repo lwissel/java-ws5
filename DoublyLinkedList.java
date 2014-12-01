@@ -13,18 +13,18 @@ public class DoublyLinkedList {
    */
   private class Node {
     private Person person;
-    private Node nextNode;
-    private Node previousNode;
+    private Node leftNode;
+    private Node rightNode;
 
     /** full constructor
      * @param person Person
-     * @param nextNode next Node
-     * @param previousNode previous Node
+     * @param leftNode next Node
+     * @param rightNode previous Node
      */
-    public Node(Node nextNode, Person person, Node previousNode) {
-      this.nextNode = nextNode;
+    public Node(Node leftNode, Person person, Node rightNode) {
+      this.leftNode = leftNode;
       this.person = person;
-      this.previousNode = previousNode;
+      this.rightNode = rightNode;
     }
 
     /** start constructor
@@ -37,22 +37,35 @@ public class DoublyLinkedList {
     /** GETTERS
      * @return node of next node
      */
-    public Node getNextNode() {
-      return this.nextNode;
+    public Node getLeftNode() {
+      return this.leftNode;
     }
     /**
      * @return node of previous node
      */
-    public Node getPreviousNode() {
-      return this.previousNode;
+    public Node getRightNode() {
+      return this.rightNode;
+    }
+    /**
+     * @return Person
+     */
+    public Person getPerson() {
+      return this.person;
+    }
+    
+    /** SETTERS
+     * @param person set person to
+     */
+    public void setPerson(Person person) {
+      this.person = person;
     }
 
   } // end inner class
 
   // fields for DLL class
   private Node node;
-  private Node nextNode;
-  private Node previousNode;
+  private Node leftNode;
+  private Node rightNode;
   private Node firstNode;
   private Node lastNode;
 
