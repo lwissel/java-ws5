@@ -59,6 +59,33 @@ public class DoublyLinkedList {
     public void setPerson(Person person) {
       this.person = person;
     }
+    /**
+     * @param leftNode sets the left node
+     */
+    public void setLeftNode(Node leftNode) {
+      this.leftNode = leftNode;
+    }
+    /**
+     * @param rightNode sets rightNode
+     */
+    public void setRightNode(Node rightNode) {
+      this.rightNode = rightNode;
+    }
+    
+    /**
+     * @return customized toString Method
+     */
+    @Override
+      public String toString() {
+        if (this.person == null)
+          return null;
+        else if (this.leftNode == null)
+          return "NULL <-> " + this.person.toString() + " <-> " + this.rightNode.getPerson().getName();
+        else if (this.rightNode == null)
+          return this.leftNode.getPerson().getName() + " <-> " + this.person.toString() + " <-> NULL";
+        else
+          return this.leftNode.getPerson().getName() + " <-> " + this.person.toString() + " <-> " + this.rightNode.getPerson().getName();
+      }
 
   } // end inner class
 
