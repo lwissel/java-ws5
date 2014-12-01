@@ -2,6 +2,8 @@
  *
  * class to represent doubly linked lists
  *
+ * with reference to http://www.dreamincode.net/forums/topic/273905-double-linked-lists-dll/ 
+ *
  * @author  Lennart Wissel
  * @version 29.11.2014
  */
@@ -90,75 +92,84 @@ public class DoublyLinkedList {
   } // end inner class
 
   // fields for DLL class
-  private Node node;
-  private Node leftNode;
-  private Node rightNode;
-  private Node firstNode;
-  private Node lastNode;
+  private int depth;
+  private Node headNode;
+  private Node tailNode;
 
-  private DoublyLinkedList rightDLL;
-  private DoublyLinkedList left;
-
-
-  /** full constructor
-   * @param left is the dll to the left
-   * @param nodeValue is the node value
-   * @param right is the dll to the right
-   */
-  public DoublyLinkedList(Person person, DoublyLinkedList rightDLL) {
-    if(rightDLL == null) { // no previous node exists therefore create a new null-person-null node
-      this.node = new Node(person);
-      this.firstNode = this.node; // this will be the firstNode for the whole DLL
-      this.lastNode = this.node; // set the current node to be the last node, this will change
-    }
-    if (rightDLL != null) { // there already exists a node therefore we just add a node to the dll
-      this.firstNode = rightDLL.getFirstNode();
-      this.node = new Node(null, person, rightDLL.getLastNode()) ;
-      this.lastNode = node; // will be the lastNode of the next recursive call in the line above
-    }
-  }
-
-  /**
-   * empty constructor returns null
+  /** default empty constructor
+   * creates NULL - HEAD(null) - TAIL(null) - NULL
    */
   public DoublyLinkedList() {
-    this.rightDLL = null;
+    headNode = new Node(null, null, null);
+    tailNode = new Node(null, null, null);
+    depth = 0;
+
+    // set links
+    headNode.setRightNode(tailNode);
+    tailNode.setLeftNode(headNode);
   }
 
-  /** GETTER
-   * @return the first node of the DLL
+  /** get right node
+   * @param refNode is the current reference node
+   * @return right node if not null
    */
-  public Node getFirstNode() {
-    return this.firstNode;
+  private Node getRightNode(Node refNode) {
+    if (refNode == tailNode)
+      throw new IllegalStateException("Trying to access Node right of tail");
+    else
+      return refNode.getRightNode();
   }
-  /**
-   * @return the last node of the DLL
+
+  /** get left node
+   * @param refNode is the current reference node
+   * @return left node if not null
    */
-  public Node getLastNode() {
-    return this.lastNode;
+  private Node getLeftNode(Node refNode) {
+    if (refNode == headNode)
+      throw new IllegalStateException("Trying to access Node left of head");
+    else
+      return refNode.getLeftNode();
   }
 
-  /** static method to construct DLLs
-   * @param person Person
-   * @param right is the DLL to the right
-   * @return a new DLL
+  /** add node left of refNode
+   * @param refNode is the current reference node
    */
-  public static DoublyLinkedList cons(Person person, DoublyLinkedList right) {
-    return new DoublyLinkedList(person,right);
+  private void addPersonLeftOf(Node refNode, Person person) {
+    Node leftNode = this.getLeftNode(refNode);
+
+    // create new node and update the neighbours references
+    Node newNode = new Node(leftNode, person, refNode);
+    leftNode.setRightNode(newNode);
+    refNode.setLeftNode(newNode);
+
+    depth++;
   }
 
-  /** static method to represent the end of the list
-   * @return a new DLL
+  /** add node right of refNode
+   * @param refNode is the current reference node
    */
-  public static DoublyLinkedList empty() {
-    return new DoublyLinkedList();
+  private void addPersonRightOf(Node refNode, Person person) {
+    Node rightNode = this.getRightNode(refNode);
+
+    // create new node and update the neighbours references
+    Node newNode = new Node(refNode, person, rightNode);
+    rightNode.setLeftNode(newNode);
+    refNode.setRightNode(newNode);
+
+    depth++;
   }
 
+  /** public methods to add elements at(left of) head
+   * @param p is the Person to add
+   */
+  public void addHead(Person person) {
+    this.addPersonLeftOf(this.headNode, person);
+  }
 
-  /*
-  @Override
-    public String toString(DoublyLinkedList dll) {
-     
-    }
-    */
+  /** public methods to add elements at(right of) tail
+   * @param p is the Person to add
+   */
+  public void addTail(Person person) {
+    this.addPersonRightOf(this.tailNode, person);
+  }
 }

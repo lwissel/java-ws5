@@ -15,15 +15,7 @@ public class Runner {
     Person mary = new Person("mary", "f", 23);
     Person tim = new Person("tim", "m", 24);
     
-    DoublyLinkedList dll = DoublyLinkedList.cons(tom, 
-      DoublyLinkedList.cons(ann, 
-        DoublyLinkedList.cons(joe, 
-          DoublyLinkedList.cons(mary, 
-            DoublyLinkedList.cons(tim, DoublyLinkedList.empty())
-          )
-        )
-      )
-    );
+    DoublyLinkedList dll = new DoublyLinkedList();
 
   }
 }
