@@ -17,9 +17,10 @@ public class Runner {
     
     DoublyLinkedList dll = new DoublyLinkedList();
     dll.addHead(tim);
-    dll.addHead(ann);
-    dll.addHead(joe);
     dll.addHead(mary);
+    dll.addHead(joe);
+    dll.addHead(ann);
+    dll.addHead(tom);
     System.out.println(dll);
 
     
@@ -31,5 +32,11 @@ public class Runner {
                DoublyLinkedList.empty())))));
   
     System.out.println(dll2);
+
+    System.out.println(DoublyLinkedList.equals(dll,dll2));
+    System.out.println(dll.getDepth());
+    System.out.println(dll2.getDepth());
+
+    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,tom));
   }
 }

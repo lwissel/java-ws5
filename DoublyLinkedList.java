@@ -85,7 +85,6 @@ public class DoublyLinkedList {
   private Node headNode;
   private Node tailNode;
 
-  private DoublyLinkedList dll;
 
   /** default empty constructor
    * creates NULL - HEAD(null) - TAIL(null) - NULL
@@ -178,13 +177,20 @@ public class DoublyLinkedList {
       return (this.depth == 0);
   }
 
+  /** getters for head and tail
+   * @return headnode
+   */
+  public Node getHeadNode() {
+    return this.headNode;
+  }
+  /**
+   * @return tailnode
+   */
+  public Node getTailNode() {
+    return this.tailNode;
+  }
 
-  // right
-  // left
-  // tostring
-  // equals
-  // neighbours of opposite gender?
-  // empty
+
   public static DoublyLinkedList empty() {
     return new DoublyLinkedList();
   }
@@ -208,10 +214,57 @@ public class DoublyLinkedList {
               s += "Left: " + tmpNode.getLeftNode() + ", Value: " + tmpNode + ", Right: " + tmpNode.getRightNode() + "\n";
               tmpNode = tmpNode.getRightNode();
           }
-           
           s += " ";
-           
           return s;
     }
-}
   
+  /** EQUALS
+   * @param dll1 first dll list
+   * @param dll2 2nd dll list
+   * @return true if both lists are equal
+   */
+  public static boolean equals(DoublyLinkedList dll1, DoublyLinkedList dll2) {
+    if (dll1.isEmpty() && dll2.isEmpty() )
+        return true;
+    if (dll1.isEmpty() || dll2.isEmpty())
+        return false;
+    if (dll1.getDepth() != dll2.getDepth())
+        return false;
+
+    boolean result = false;
+    for(int i = 0; i < dll1.getDepth(); i++) {
+      Node tmpNode1 = dll1.getHeadNode().getRightNode();
+      Node tmpNode2 = dll2.getHeadNode().getRightNode();
+      while(tmpNode1 != dll1.getTailNode()){
+          result = tmpNode1.getPerson().equals(tmpNode2.getPerson());
+          if (result == false)
+            return result;
+
+          tmpNode1 = tmpNode1.getRightNode();
+          tmpNode2 = tmpNode2.getRightNode();
+      }
+    }
+    return result;
+  }
+  
+  // right
+  // left
+  // neighbours of opposite gender?
+  // NOT WORKIN
+  public static boolean neighboursOfSameGender(DoublyLinkedList dll, Person p) {
+      Node refNode = dll.getHeadNode().getRightNode();
+      while(refNode != dll.getTailNode()){
+          if (refNode.getPerson().equals(p))
+            break;
+
+          refNode = refNode.getRightNode();
+      }
+
+    if (refNode == dll.getHeadNode())
+      return refNode.getPerson().getGender().equals(refNode.getRightNode().getPerson().getGender());
+    if (refNode == dll.getTailNode())
+      return refNode.getPerson().getGender().equals(refNode.getLeftNode().getPerson().getGender());
+
+    return  (refNode.getPerson().getGender().equals(refNode.getLeftNode().getPerson().getGender()) && refNode.getPerson().getGender().equals(refNode.getRightNode().getPerson().getGender()));
+  }
+}
