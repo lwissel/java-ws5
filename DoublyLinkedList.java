@@ -85,6 +85,9 @@ public class DoublyLinkedList {
   private Node headNode;
   private Node tailNode;
 
+  private DoublyLinkedList left;
+  private DoublyLinkedList right;
+
 
   /** default empty constructor
    * creates NULL - HEAD(null) - TAIL(null) - NULL
@@ -190,6 +193,31 @@ public class DoublyLinkedList {
     return this.tailNode;
   }
 
+  /** set left DLL
+   * @param left dll;
+   */
+  public void setLeft(DoublyLinkedList left) {
+    this.left = left;
+  }
+  /** set right DLL
+   * @param right dll;
+   */
+  public void setRight(DoublyLinkedList right) {
+    this.right = right;
+  }
+  /** GETTERS for above two methods
+   * @return left dll
+   */
+  public DoublyLinkedList left() {
+    return this.left;
+  }
+  /**
+   * @return right dll
+   */
+  public DoublyLinkedList right() {
+    return this.right;
+  }
+
 
   public static DoublyLinkedList empty() {
     return new DoublyLinkedList();
@@ -197,6 +225,8 @@ public class DoublyLinkedList {
   // cons
   public static DoublyLinkedList cons(Person person, DoublyLinkedList dll) {
     DoublyLinkedList newDll = dll;
+    newDll.setLeft(null);
+    newDll.setRight(dll);
     newDll.addHead(person);
     return newDll;
   }
@@ -250,7 +280,7 @@ public class DoublyLinkedList {
   // right
   // left
   // neighbours of opposite gender?
-  // NOT WORKIN
+  // will only check the first occurence of this person
   public static boolean neighboursOfSameGender(DoublyLinkedList dll, Person p) {
       Node refNode = dll.getHeadNode().getRightNode();
       while(refNode != dll.getTailNode()){
@@ -259,10 +289,9 @@ public class DoublyLinkedList {
 
           refNode = refNode.getRightNode();
       }
-
-    if (refNode == dll.getHeadNode())
+    if (refNode == dll.getHeadNode().getRightNode())
       return refNode.getPerson().getGender().equals(refNode.getRightNode().getPerson().getGender());
-    if (refNode == dll.getTailNode())
+    if (refNode == dll.getTailNode().getLeftNode())
       return refNode.getPerson().getGender().equals(refNode.getLeftNode().getPerson().getGender());
 
     return  (refNode.getPerson().getGender().equals(refNode.getLeftNode().getPerson().getGender()) && refNode.getPerson().getGender().equals(refNode.getRightNode().getPerson().getGender()));

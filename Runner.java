@@ -21,6 +21,8 @@ public class Runner {
     dll.addHead(joe);
     dll.addHead(ann);
     dll.addHead(tom);
+    dll.addHead(tim);
+    dll.addHead(tim);
     System.out.println(dll);
 
     
@@ -38,5 +40,9 @@ public class Runner {
     System.out.println(dll2.getDepth());
 
     System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,tom));
+    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,ann));
+    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,joe));
+    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,mary));
+    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll,tim));
   }
 }
