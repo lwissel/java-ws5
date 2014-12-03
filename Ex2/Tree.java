@@ -1,6 +1,6 @@
-package tree;
-
-/** 
+/** Adapted Tree class for Excercise 2 ws5
+ * by Lennart Wissel
+ * 
  * @author Uday Reddy, with changes by Manfred Kerber
  * @version 2014-11-26 based on Uday's version of 2012
  * 
@@ -15,14 +15,15 @@ public class Tree {
      * constructors and getters.
      */
     private boolean empty;
-    private int value;
+    private Person value;
     private Tree left, right;
+    
 
     /**
      * Creates a new Tree whose root value is x and left and right
      * subtrees are r and l 
      */
-    public Tree(int value, Tree left, Tree right) {
+    public Tree(Person value, Tree left, Tree right) {
         this.empty = false; 
         this.value = value; 
         this.left = left; 
@@ -46,7 +47,7 @@ public class Tree {
     /**
      * gets the root value of this tree
      */
-    public int getValue() {
+    public Person getValue() {
         if (isEmpty()) {
             throw new IllegalStateException(
                                             "Trying to access root of an empty tree");
@@ -85,5 +86,22 @@ public class Tree {
     }
 	    
     public final static Tree emptyTree = new Tree();
-	    
+
+
+    public void insert(Person value) {
+      if(this.isEmpty()) {
+        this.left = emptyTree;
+        this.right = emptyTree;
+        this.value = value;
+        this.empty = false;
+      }
+      if (value.getName().compareTo(this.value.getName()) == 0) {
+      }
+      if (value.getName().compareTo(this.value.getName()) < 0) {
+        this.right.insert(value);
+      }
+      if (value.getName().compareTo(this.value.getName()) > 0) {
+        this.left.insert(value);
+      }
+    }
 }
