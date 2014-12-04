@@ -70,6 +70,7 @@ public class Person {
 
   /**
    * @return if p1 equals p2
+   * @param p is person p
    */
     public boolean equals(Person p) {
       if (p == null) { 
