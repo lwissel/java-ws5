@@ -90,17 +90,17 @@ public class Tree {
 
     public void insert(Person value) {
       if(this.isEmpty()) {
-        this.left = emptyTree;
-        this.right = emptyTree;
+        this.left = new Tree();
+        this.right = new Tree();
         this.value = value;
         this.empty = false;
       }
       if (value.getName().compareTo(this.value.getName()) == 0) {
       }
-      if (value.getName().compareTo(this.value.getName()) < 0) {
+      if (value.getName().compareTo(this.value.getName()) > 0) {
         this.right.insert(value);
       }
-      if (value.getName().compareTo(this.value.getName()) > 0) {
+      if (value.getName().compareTo(this.value.getName()) < 0) {
         this.left.insert(value);
       }
     }

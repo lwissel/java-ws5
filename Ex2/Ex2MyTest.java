@@ -21,9 +21,10 @@ public class Ex2MyTest {
   @Test
     public void ex2Test1() {
       Tree test = new Tree();
-      test.insert(tom);
-
       test.insert(mary);
+
+      test.insert(ann);
+      test.insert(tom);
 
       System.out.println(test.getValue());
       System.out.println(test.getRight().getValue());
