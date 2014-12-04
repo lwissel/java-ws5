@@ -49,7 +49,7 @@ public class Ex3 {
       // Read the text line by line and count occurences
       String str;
       while (sc.hasNextLine()) {
-        str = sc.nextLine();
+        str = sc.nextLine().toLowerCase();
         count(str);
         frequency[28]++; // every new line = \n
       }
