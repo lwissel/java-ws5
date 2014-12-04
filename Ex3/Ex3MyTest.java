@@ -5,12 +5,14 @@ import java.util.*;
 
 public class Ex3MyTest {
   
+  public static long[] frequency = new long[28];
   /**
    * Test for externally counted occurences
    */
   @BeforeClass
     public static void setUp() {
-      Ex3.readAndCount("DonQuixote.txt");
+
+      Ex3.frequencyAnalysis("DonQuixote.txt");
     }
   @Test // a
     public void ex3Test1() {

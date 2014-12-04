@@ -9,15 +9,13 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Ex3 {
-
-  public static long[] frequency = new long[29];
-
+  public static long[] frequency = new long[28];
   /**
    * counting based on utf character values
    * @param str is the string to test
    * sets frequency array
    */
-  public static void count(String str) {
+  public static void count(String str, long[] frequency) {
     // int newline = (int)'\n'; // does not work for java
     for(int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
@@ -38,7 +36,7 @@ public class Ex3 {
   /** method to do all the work
    * @param filename might be the relative path
    */
-  public static void readAndCount(String filename) {
+  public static void readAndCount(String filename, long[] frequency) {
     FileInputStream inputStream = null;
     Scanner sc = null;
 
@@ -50,7 +48,7 @@ public class Ex3 {
       String str;
       while (sc.hasNextLine()) {
         str = sc.nextLine().toLowerCase();
-        count(str);
+        count(str, frequency);
         frequency[28]++; // every new line = \n
       }
       // according to baeldung.com/java-read-lines-large-file exceptions are supressed by the scanner
@@ -67,7 +65,7 @@ public class Ex3 {
     }
   }
 
-  public static void print(long[] frequency) {
+  public void print(long[] frequency) {
     // print occurences
     for(int a = 0; a < frequency.length-3; a++) {
       System.out.println((char)(a+97) + ": " + frequency[a]);
@@ -77,10 +75,15 @@ public class Ex3 {
       System.out.println("\\n" + ": " + frequency[28]);
   }
 	
-	public static void main(String[] args) {
-
-    readAndCount("DonQuixote.txt");
-    print(frequency);
+  /** helper method for public test
+   * @param name filename
+   * @return frequency list
+   */
+  public static long[] frequencyAnalysis(String name) {
+    long[] freq = new long[29];
+    readAndCount(name, freq);
+    frequency = freq;
+    return frequency;
   }
 
 }
