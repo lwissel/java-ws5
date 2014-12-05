@@ -111,9 +111,47 @@ public class DoublyLinkedList {
   /** cons method
    * @param p person
    * @param list dll to set right
+   * @return new dll
    */
   public static DoublyLinkedList cons(Person p, DoublyLinkedList list) {
     return new DoublyLinkedList(p, list);
   }
-	
+
+  /** tostring
+   * @return string of list
+   */
+  @Override
+    public String toString() {
+      if (isEmpty())
+        return "";
+      else if (right.isEmpty())
+        return getPerson().toString() + "";
+      else
+        return getPerson().toString() + ", " + right.toString();
+    }
+
+  /** dll empty list creation
+   * @return empty dll
+   */
+  public static DoublyLinkedList empty() {
+    return new DoublyLinkedList();
+  }
+
+  /** check whether neigbours have same gender
+   * @param list which header person we are going to check on
+   * @return true if neighbours are equal gender
+   */
+  public static boolean check(DoublyLinkedList list) {
+    if (list.isEmpty())
+      return false;
+    else if (list.getLeft().isEmpty() && list.getRight().isEmpty())
+      return true;
+    else if (list.getLeft().isEmpty())
+      return !list.getPerson().getGender().equals(list.getRight().getPerson().getGender());
+    else if (list.getRight().isEmpty())
+      return !list.getPerson().getGender().equals(list.getLeft().getPerson().getGender());
+    else
+      return (!list.getPerson().getGender().equals(list.getRight().getPerson().getGender()) && !list.getPerson().getGender().equals(list.getLeft().getPerson().getGender()) );
+  }
+
 }
