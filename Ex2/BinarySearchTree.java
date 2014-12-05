@@ -1,32 +1,32 @@
-/** Adapted Tree class for Excercise 2 ws5
+/** Adapted BinarySearchTree class for Excercise 2 ws5
  * by Lennart Wissel
  * 
  * @author Uday Reddy, with changes by Manfred Kerber
  * @version 2014-11-26 based on Uday's version of 2012
  * 
- * Tree class defines a recursive type called Tree (for Binary Trees), and provides
+ * BinarySearchTree class defines a recursive type called BinarySearchTree (for Binary Trees), and provides
  * constructor and getter methods. 
  */
 
-public class Tree {
+public class BinarySearchTree {
 
     /**
-     * Tree class defines a recursive type called Tree, and provides
+     * BinarySearchTree class defines a recursive type called BinarySearchTree, and provides
      * constructors and getters.
      */
     private boolean empty;
     private Person value;
-    private Tree left, right;
+    private BinarySearchTree left, right;
     
 
     /**
-     * Creates a new Tree whose root value is x and left and right
+     * Creates a new BinarySearchTree whose root value is x and left and right
      * subtrees are r and l 
      * @param value object person here
      * @param left Left tree
      * @param right Right tree
      */
-    public Tree(Person value, Tree left, Tree right) {
+    public BinarySearchTree(Person value, BinarySearchTree left, BinarySearchTree right) {
         this.empty = false; 
         this.value = value; 
         this.left = left; 
@@ -36,7 +36,7 @@ public class Tree {
     /**
      * Creates an empty tree
      */
-    public Tree() {
+    public BinarySearchTree() {
         this.empty = true;
     }
 	    
@@ -62,9 +62,9 @@ public class Tree {
 	    
     /**
      * gets the left subtree of this node
-     * @return Tree left subtree
+     * @return BinarySearchTree left subtree
      */
-    public Tree getLeft() {
+    public BinarySearchTree getLeft() {
         if (isEmpty()) {
             throw new IllegalStateException(
                                             "Trying to access subtree of an empty tree");
@@ -74,9 +74,9 @@ public class Tree {
 	    
     /**
      * gets the right subtree of this node
-     * @return Tree right subtree
+     * @return BinarySearchTree right subtree
      */
-    public Tree getRight() {
+    public BinarySearchTree getRight() {
         if (isEmpty()) {
             throw new IllegalStateException(
                                             "Trying to access subtree of an empty tree");
@@ -96,28 +96,33 @@ public class Tree {
         return result.toString();
     }
 	    
-    public final static Tree emptyTree = new Tree();
+    public final static BinarySearchTree emptyTree = new BinarySearchTree();
 
 
     /**
      * recursive insert function
      * @param value Person object to insert
      */
-    public void insert(Person value) {
+    public void ins(Person value) {
       if(this.isEmpty()) {
-        this.left = new Tree();
-        this.right = new Tree();
+        this.left = new BinarySearchTree();
+        this.right = new BinarySearchTree();
         this.value = value;
         this.empty = false;
       }
       if (value.getName().compareTo(this.value.getName()) == 0) {
       }
       if (value.getName().compareTo(this.value.getName()) > 0) {
-        this.right.insert(value);
+        this.right.ins(value);
       }
       if (value.getName().compareTo(this.value.getName()) < 0) {
-        this.left.insert(value);
+        this.left.ins(value);
       }
+    }
+
+    public static BinarySearchTree insert(Person value, BinarySearchTree bst) {
+      bst.ins(value);
+      return bst;
     }
 
     /**

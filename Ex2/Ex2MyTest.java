@@ -6,7 +6,7 @@ import java.util.*;
 public class Ex2MyTest {
   
   private Person tom, ann, joe, mary, tim;
-  private Tree test;
+  private BinarySearchTree test;
   /**
    * Test for externally counted occurences
    */
@@ -18,13 +18,13 @@ public class Ex2MyTest {
     mary = new Person("mary", "f", 23);
     tim = new Person("tim", "m", 24);
 
-      test = new Tree();
-      test.insert(mary);
+      test = new BinarySearchTree();
+      test.ins(mary);
 
-      test.insert(ann);
-      test.insert(tom);
-      test.insert(joe);
-      test.insert(tim);
+      test.ins(ann);
+      test.ins(tom);
+      test.ins(joe);
+      test.ins(tim);
     }
 
   // insert methods
