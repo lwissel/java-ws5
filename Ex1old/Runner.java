@@ -39,10 +39,10 @@ public class Runner {
     System.out.println(dll.getDepth());
     System.out.println(dll2.getDepth());
 
-    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,tom));
-    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,ann));
-    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,joe));
-    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll2,mary));
-    System.out.println(DoublyLinkedList.neighboursOfSameGender(dll,tim));
+    System.out.println(DoublyLinkedList.check(dll2));
+    System.out.println(DoublyLinkedList.check(dll2));
+    System.out.println(DoublyLinkedList.check(dll2));
+    System.out.println(DoublyLinkedList.check(dll2));
+    System.out.println(DoublyLinkedList.check(dll));
   }
 }
