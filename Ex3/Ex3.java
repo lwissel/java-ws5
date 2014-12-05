@@ -13,6 +13,7 @@ public class Ex3 {
   /**
    * counting based on utf character values
    * @param str is the string to test
+   * @param frequency needed for tests
    * sets frequency array
    */
   public static void count(String str, long[] frequency) {
@@ -35,6 +36,7 @@ public class Ex3 {
 
   /** method to do all the work
    * @param filename might be the relative path
+   * @param frequency needed for tests
    */
   public static void readAndCount(String filename, long[] frequency) {
     FileInputStream inputStream = null;
@@ -65,6 +67,9 @@ public class Ex3 {
     }
   }
 
+  /** print frequency
+   * @param frequency array
+   */
   public void print(long[] frequency) {
     // print occurences
     for(int a = 0; a < frequency.length-3; a++) {
