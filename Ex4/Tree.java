@@ -70,6 +70,13 @@ public class Tree {
       this.isEmpty = false;
     }
 
+    /**getter for root
+     * @return root node
+     */
+    public Node getRoot() {
+      return this.root;
+    }
+
     /** method to set the root node
      * @param root new root node
      */
@@ -133,23 +140,10 @@ public class Tree {
   }
 
     /** method to generate huffman tree
-     *  if (frequencies.length > 1) // what if =1 ??
-     *    generate arraylist of nodes (freq, letter);
-     *    sort arraylist;
-     *  while frequencies list.length > 1 {
-     *    newrootNode = (frequencies[0] + frequencies[1])
-     *    newlefttree = new htree(frequency0,char, empty, empty)
-     *    newrightree = new htree(frequency0,char, empty, empty)
-     *    insert newrootNode into arraylist at bottom
-     *    add to head of huffmann tree(newrootNode, newlefttree, newrighttree);
-     *    delete from arraylist
-     *    delete from arraylist;
-     *    sort arraylist
-     *  }
      * @param freqs long[] containing freq counts
      * @return new huffman tree
      */
-    public Tree generateTree(long[] freq) {
+    public Tree genTree(long[] freq) {
       Tree result = new Tree();
       ArrayList<Node> nList = generateNodeList(freq);
       sortNList(nList);
@@ -172,16 +166,16 @@ public class Tree {
       while (nList.size() > 1) {
         newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
         result = new Tree(newRoot, result, new Tree(nList.get(1)));
+        nList.remove(1); // important to first remove 2nd element in the list!
         nList.remove(0);
-        nList.remove(1);
         nList.add(newRoot);
         sortNList(nList);
       }
 
       // add last element in case of uneven list
       if (nList.size() == 1) {
-        newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
-        result = new Tree(newRoot, result, new Tree(nList.get(1)));
+        newRoot = new Node(nList.get(0).getFreq() + result.getRoot().getFreq(),'\0');
+        result = new Tree(newRoot, result, new Tree(nList.get(0)));
         nList.remove(0);
       }
 
@@ -190,4 +184,22 @@ public class Tree {
 
       return result;
     }
+
+    /** static method to use to generate tree
+     * @param freq list
+     * @return htree
+     */
+    public static Tree generateTree(long[] list) {
+      Tree t = new Tree();
+      return t.genTree(list);
+    }
+   
+    @Override
+      public String toString() {
+        if (isEmpty)
+          return "";
+        else
+          return "R: " + this.getRoot().toString() + "\n L: " + this.left.toString() + "\n R: " + this.right.toString();
+    }    
+	    
 }
