@@ -1,13 +1,13 @@
 /** Excercise 4 ws5
  *
- * HuffmanTree representation
+ * Tree representation
  *
  * @author  Lennart Wissel
  * @version 05.12.2014
  */
 import java.util.*;
 
-public class HuffmanTree {
+public class Tree {
   private class Node {
     private long freq;
     private char value;
@@ -37,23 +37,23 @@ public class HuffmanTree {
   }
 
     private Node root;
-    private HuffmanTree left;
-    private HuffmanTree right;
+    private Tree left;
+    private Tree right;
     private boolean isEmpty;
 
     /** empty constructor
      */
-    public HuffmanTree() {
+    public Tree() {
       this.isEmpty = true;
     }
 
     /** constructor to generate 1 element tree
      * @param value Node value
      */
-    public HuffmanTree(Node value) {
+    public Tree(Node value) {
       this.root = value;
-      this.left = new HuffmanTree();
-      this.right = new HuffmanTree();
+      this.left = new Tree();
+      this.right = new Tree();
       this.isEmpty = false;
     }
 
@@ -63,11 +63,45 @@ public class HuffmanTree {
      * @param left left htree
      * @param right right htree
      */
-    public HuffmanTree(Node value, HuffmanTree left, HuffmanTree right) {
+    public Tree(Node value, Tree left, Tree right) {
       this.root = value;
       this.left = left;
       this.right = right;
       this.isEmpty = false;
+    }
+
+    /** method to set the root node
+     * @param root new root node
+     */
+    public void setRoot(Node root) {
+      if(isEmpty) {
+        this.left = new Tree();
+        this.right = new Tree();
+        this.isEmpty = false;
+      }
+      this.root = root;
+    }
+
+    /** method to set the left htree
+     * @param left htree 
+     */
+    public void setLeft(Tree left) {
+      if(isEmpty) {
+        throw new IllegalStateException("Trying to access left htree of empty tree");
+      }
+      else
+        this.left = left;
+    }
+
+    /** method to set the right htree
+     * @param right htree 
+     */
+    public void setRight(Tree right) {
+      if(isEmpty) {
+        throw new IllegalStateException("Trying to access right htree of empty tree");
+      }
+      else
+        this.right = right;
     }
 
     /** method to generate arraylist of nodes
@@ -115,21 +149,45 @@ public class HuffmanTree {
      * @param freqs long[] containing freq counts
      * @return new huffman tree
      */
-    public HuffmanTree generateTree(long[] freq) {
-      HuffmanTree result = new HuffmanTree();
+    public Tree generateTree(long[] freq) {
+      Tree result = new Tree();
       ArrayList<Node> nList = generateNodeList(freq);
       sortNList(nList);
       
+      // for lists with only 1 element the htree is trivial
+      if(nList.size() == 1) {
+        result.setRoot(nList.get(0));
+        return result;
+      }
+
+      // add first element to htree result
+      Node newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
+      Tree newLeft = new Tree(nList.get(0));
+      Tree newRight = new Tree(nList.get(1));
+      result.setRoot(newRoot);
+      result.setLeft(newLeft);
+      result.setRight(newRight);
+
+      // add middle elements
       while (nList.size() > 1) {
-        Node newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
-        HuffmanTree newLeft = result.getLeft();
-        HuffmanTree newRight = new HuffmanTree(nList.get(1));
-        result.addHead(newRoot, newLeft, newRight);
+        newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
+        result = new Tree(newRoot, result, new Tree(nList.get(1)));
         nList.remove(0);
         nList.remove(1);
         nList.add(newRoot);
         sortNList(nList);
       }
+
+      // add last element in case of uneven list
+      if (nList.size() == 1) {
+        newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
+        result = new Tree(newRoot, result, new Tree(nList.get(1)));
+        nList.remove(0);
+      }
+
+      if (nList.size() != 0)
+        throw new IllegalStateException("Something went wrong!");
+
       return result;
     }
 }
