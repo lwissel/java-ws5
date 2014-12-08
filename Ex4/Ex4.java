@@ -14,10 +14,13 @@ public class Ex4 {
 
     Tree htree;
     htree = Tree.generateTree(frequencies);
-    System.out.println(htree);
+    //Tree.printTree(htree, new StringBuffer());
     /**
     GENERATE TREE
     */
+    System.out.println();
+		Tree huffman = Tree.generateTree(frequencies);
+		String result = Tree.encode("hello", huffman);
   }
     
 }

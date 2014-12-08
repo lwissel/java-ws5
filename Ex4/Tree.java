@@ -60,16 +60,16 @@ public class Tree implements Comparable<Tree> {
      * @return tree left
      */
     public Tree getLeft() {
-      if (left.isEmpty())
-        throw new IllegalStateException("empty left tree");
+      //if (left.isEmpty())
+        //throw new IllegalStateException("empty left tree");
       return this.left;
     }
     /**
      * @return Tree right
      */
     public Tree getRight() {
-      if (right.isEmpty())
-        throw new IllegalStateException("empty right tree");
+      //if (right.isEmpty())
+       // throw new IllegalStateException("empty right tree");
       return this.right;
     }
     /**
@@ -106,7 +106,8 @@ public class Tree implements Comparable<Tree> {
       PriorityQueue<Tree> trees = new PriorityQueue<Tree>();
 
       for(int i = 0; i < frequencies.length; i++) {
-        trees.offer(new Tree(frequencies[i], (char)(i+97), new Tree(), new Tree()));
+        if (frequencies[i] > 0)
+          trees.offer(new Tree(frequencies[i], (char)(i+97), new Tree(), new Tree()));
       }
 
       if (trees.size() > 0) {
@@ -130,7 +131,9 @@ public class Tree implements Comparable<Tree> {
           return;
 
         else {
-          System.out.println(tree.getCh() + "\t" + tree.getFreq() + "\t" + pre);
+          if (tree.getCh() != '\0') 
+            System.out.println(tree.getCh() + "\t" + tree.getFreq() + "\t" + pre);
+
           // left 
           pre.append('0');
           printTree(tree.getLeft(), pre);
@@ -141,9 +144,74 @@ public class Tree implements Comparable<Tree> {
           printTree(tree.getRight(), pre);
           pre.deleteCharAt(pre.length()-1);
         }
-         
+    }
+    public static void encHelper(Tree tree, StringBuffer pre, StringBuffer res) {
+        if (tree.isEmpty())
+          return;
+
+        else {
+          if (tree.getCh() != '\0') 
+            res.append(tree.getCh()); // + "\t" + pre + "\n");
+
+          // left 
+          pre.append('0');
+          encHelper(tree.getLeft(), pre, res);
+          pre.deleteCharAt(pre.length()-1);
+          
+          // right
+          pre.append('1');
+          encHelper(tree.getRight(), pre, res);
+          pre.deleteCharAt(pre.length()-1);
+        }
     }
 
+    /** method to encode a given string
+     * @param str string to encode
+     * @param tree huffman tree to use
+     */
+    public static String encode(String str, Tree tree) {
+      Hashtable pairs = new Hashtable();
+      StringBuffer res = new StringBuffer();
+      encHelper(tree, new StringBuffer(), res);
+
+      System.out.println(res);
+      return res.toString();
+    }
+
+    /** recursive encode helper method
+     *
+     * @param tree
+     * @param pre
+     * @param res is resultstring
+     * @return string of format char:encoding\n etc
+     */
+ /*   public static String encodeHelper(Tree tree, StringBuffer pre, StringBuffer res) {
+        if (tree.isEmpty())
+          res.append(' ');
+
+        else {
+          if (tree.getCh() != '\0')  {
+            res.append(tree.getCh());
+            res.append(':');
+            res.append(pre);
+            res.append('\n');
+            System.out.println(res.toString());
+          }
+
+          // left 
+          pre.append('0');
+          encodeHelper(tree.getLeft(), pre, res);
+          pre.deleteCharAt(pre.length()-1);
+          
+          // right
+          pre.append('1');
+          encodeHelper(tree.getRight(), pre, res);
+          pre.deleteCharAt(pre.length()-1);
+        }
+          return res.toString();
+    }
+}
+*/
     /** method to generate arraylist of nodes
      * for given alphabet a-z, whitespace, period, linecount
      *
