@@ -7,108 +7,141 @@
  */
 import java.util.*;
 
-public class Tree {
-  private class Node {
+public class Tree implements Comparable<Tree> {
+
     private long freq;
-    private char value;
-
-    public Node(long freq, char value) {
-      this.freq = freq;
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return value + " " + freq;
-    }
-
-    /** getter
-     * @return freq
-     */
-    public long getFreq() {
-      return this.freq;
-    }
-    /** getter
-     * @return value
-     */
-    public long getValue() {
-      return this.value;
-    }
-  }
-
-    private Node root;
+    private char ch;
     private Tree left;
     private Tree right;
     private boolean isEmpty;
 
-    /** empty constructor
-     */
-    public Tree() {
-      this.isEmpty = true;
-    }
-
-    /** constructor to generate 1 element tree
-     * @param value Node value
-     */
-    public Tree(Node value) {
-      this.root = value;
-      this.left = new Tree();
-      this.right = new Tree();
-      this.isEmpty = false;
-    }
-
-    /** full constructor
+    /** constructor for given subtrees
      *
-     * @param value node value (freq, char)
      * @param left left htree
      * @param right right htree
      */
-    public Tree(Node value, Tree left, Tree right) {
-      this.root = value;
+    public Tree(Tree left, Tree right) {
+      this.freq = left.getFreq() + right.getFreq();
+      this.left = left;
+      this.right = right;
+      this.ch = '\0'; // no character
+      this.isEmpty = false;
+    }
+
+    /** full constructor;
+     *
+     * @param left left htree
+     * @param right right htree
+     * @param freq  frequency
+     * @param ch is character value
+     */
+    public Tree(long freq, char ch, Tree left, Tree right) {
+      this.freq = freq;
+      this.ch = ch;
       this.left = left;
       this.right = right;
       this.isEmpty = false;
     }
-
-    /**getter for root
-     * @return root node
+    
+    /** empty constructor for new tree;
      */
-    public Node getRoot() {
-      return this.root;
+    public Tree() {
+      this.isEmpty = true;
+    }
+    
+    // compare on freq
+    public int compareTo(Tree tree) {
+      return (int)freq - (int)tree.freq;
+    }
+    
+
+    /**
+     * getters
+     * @return tree left
+     */
+    public Tree getLeft() {
+      if (left.isEmpty())
+        throw new IllegalStateException("empty left tree");
+      return this.left;
+    }
+    /**
+     * @return Tree right
+     */
+    public Tree getRight() {
+      if (right.isEmpty())
+        throw new IllegalStateException("empty right tree");
+      return this.right;
+    }
+    /**
+     * @return freq
+     */
+    public long getFreq() {
+      if (isEmpty)
+        throw new IllegalStateException("empty tree");
+      return this.freq;
     }
 
-    /** method to set the root node
-     * @param root new root node
+    /**
+     * @return ch
      */
-    public void setRoot(Node root) {
-      if(isEmpty) {
-        this.left = new Tree();
-        this.right = new Tree();
-        this.isEmpty = false;
-      }
-      this.root = root;
+    public char getCh() {
+      if (isEmpty)
+        throw new IllegalStateException("empty tree");
+      return this.ch;
     }
 
-    /** method to set the left htree
-     * @param left htree 
+    /**
+     * @return is empty
      */
-    public void setLeft(Tree left) {
-      if(isEmpty) {
-        throw new IllegalStateException("Trying to access left htree of empty tree");
-      }
-      else
-        this.left = left;
+    public boolean isEmpty() {
+      return this.isEmpty;
     }
 
-    /** method to set the right htree
-     * @param right htree 
+    /** generate tree
+     * @param frequencies array
+     * @return huffman tree of freqs
+     * priorityqueue inspired by rosettacode.org/wiki/huffman
      */
-    public void setRight(Tree right) {
-      if(isEmpty) {
-        throw new IllegalStateException("Trying to access right htree of empty tree");
+    public static Tree generateTree(long[] frequencies) {
+      PriorityQueue<Tree> trees = new PriorityQueue<Tree>();
+
+      for(int i = 0; i < frequencies.length; i++) {
+        trees.offer(new Tree(frequencies[i], (char)(i+97), new Tree(), new Tree()));
       }
-      else
-        this.right = right;
+
+      if (trees.size() > 0) {
+        while (trees.size() > 1) {
+          Tree t1 = trees.poll(); // gets first tree and removes it afterwards from the queue
+          Tree t2 = trees.poll();
+
+          // insert element by comparator freq
+          trees.offer(new Tree(t1,t2)); // makes sure at least one elements stays
+        }
+      }
+      return trees.poll();
+    }
+
+    /* to string method
+     * @return string representation
+     * inspired by rosettacode.org/wiki/huffman
+     */
+      public static void printTree(Tree tree, StringBuffer pre) {
+        if (tree.isEmpty())
+          return;
+
+        else {
+          System.out.println(tree.getCh() + "\t" + tree.getFreq() + "\t" + pre);
+          // left 
+          pre.append('0');
+          printTree(tree.getLeft(), pre);
+          pre.deleteCharAt(pre.length()-1);
+          
+          // right
+          pre.append('1');
+          printTree(tree.getRight(), pre);
+          pre.deleteCharAt(pre.length()-1);
+        }
+         
     }
 
     /** method to generate arraylist of nodes
@@ -118,7 +151,8 @@ public class Tree {
      * maps period to | = 124
      * maps linecount to } = 125
      */
-    public ArrayList<Node> generateNodeList(long[] frequency) {
+/*
+     * public ArrayList<Node> generateNodeList(long[] frequency) {
 
       ArrayList<Node> nList = new ArrayList<Node>();
       for(int i = 0; i < frequency.length; i++) {
@@ -126,11 +160,11 @@ public class Tree {
       }
       return nList;
     }
-
+*/
   /**
    * sorting the list by overriding the given compare method for lists
    */
-  public void sortNList(ArrayList<Node> nList) {
+/* public void sortNList(ArrayList<Node> nList) {
     Collections.sort(nList, new Comparator<Node>() {
       @Override
       public int compare(Node n1, Node n2) {
@@ -138,12 +172,12 @@ public class Tree {
       }
     });
   }
-
+*/
     /** method to generate huffman tree
      * @param freqs long[] containing freq counts
      * @return new huffman tree
      */
-    public Tree genTree(long[] freq) {
+/*    public Tree genTree(long[] freq) {
       Tree result = new Tree();
       ArrayList<Node> nList = generateNodeList(freq);
       sortNList(nList);
@@ -184,12 +218,12 @@ public class Tree {
 
       return result;
     }
-
+*/
     /** static method to use to generate tree
      * @param freq list
      * @return htree
      */
-    public static Tree generateTree(long[] list) {
+/*    public static Tree generateTree(long[] list) {
       Tree t = new Tree();
       return t.genTree(list);
     }
@@ -201,5 +235,5 @@ public class Tree {
         else
           return "R: " + this.getRoot().toString() + "\n L: " + this.left.toString() + "\n R: " + this.right.toString();
     }    
-	    
+	*/    
 }
