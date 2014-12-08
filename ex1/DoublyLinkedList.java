@@ -1,3 +1,5 @@
+package ex1;
+
 /** Excercise 1 ws 5
  * adapted from fridays tutorial class
  *

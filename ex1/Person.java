@@ -1,3 +1,5 @@
+package ex1;
+
 /** Exercise 1 ws5
  *
  * Assuming the Person class exists ;)
