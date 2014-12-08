@@ -1,3 +1,4 @@
+package ex3;
 /** Excercise 3 ws5
  *
  * Count char occurences in File

@@ -1,3 +1,5 @@
+package ex3;
+
 import static org.junit.Assert.*;
 import org.junit.*;
 import java.util.*;
