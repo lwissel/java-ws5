@@ -50,7 +50,8 @@ public class Ex3 {
       // Read the text line by line and count occurences
       String str;
       while (sc.hasNextLine()) {
-        str = sc.nextLine().toLowerCase();
+        str = sc.nextLine();
+        str = str.toLowerCase();
         count(str, frequency);
         frequency[28]++; // every new line = \n
       }

@@ -14,7 +14,7 @@ public class Ex3MyTest {
   @BeforeClass
     public static void setUp() {
 
-      Ex3.frequencyAnalysis("DonQuixote.txt");
+      Ex3.frequencyAnalysis("ex3/DonQuixote.txt");
     }
   @Test // a
     public void ex3Test1() {
@@ -41,5 +41,10 @@ public class Ex3MyTest {
   @Test // full stops
     public void ex3Test6() {
       assertTrue(Ex3.frequency[27] == 68099);
+    }
+  @Test // beware upper and lowercase characters!
+    public void ex3Test7() {
+      Ex3.frequencyAnalysis("ex3/mytest.txt");
+      assertEquals(Ex3.frequency[3],24);
     }
 }

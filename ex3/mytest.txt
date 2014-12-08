@@ -1,0 +1,21 @@
+
+c
+Manfred Kerber School of Computer Science
+Ian Batten University of Birmingham
+Joseph Gardiner
+Worksheet 5
+MSc/ICY Software Workshop
+Assessed Exercise: 20% of this term's continuous assessment mark.
+Submission: Wednesday 10 December 2014 2pm
+5% late submission penalty within the rst 24 hours. No submission after 24 hours.
+JUnit tests and JavaDoc comments are mandatory. All submissions must pass the tests
+provided on 3 December. Follow the submission guidelines on
+http://www.cs.bham.ac.uk/internal/courses/java/msc/submission.php
+.
+Exercise 1:
+(Basic, 30%)
+A doubly linked list is similar to a linked list, however, it
+has in addition to a pointer to the next element also one to its predecessor. E.g., a seating
+order in a cinema may be represented this way. Everybody (except the two at the outer
+ends) has two neighbours, their right and their left neighbour.
+
