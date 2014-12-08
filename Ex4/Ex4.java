@@ -21,6 +21,9 @@ public class Ex4 {
     System.out.println();
 		Tree huffman = Tree.generateTree(frequencies);
 		String result = Tree.encode("hello", huffman);
+    System.out.println(result);
+		String result2 = Tree.decode(result, huffman);
+    System.out.println(result2);
   }
     
 }

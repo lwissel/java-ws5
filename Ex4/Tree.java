@@ -100,15 +100,19 @@ public class Tree implements Comparable<Tree> {
     /** generate tree
      * @param frequencies array
      * @return huffman tree of freqs
-     * priorityqueue inspired by rosettacode.org/wiki/huffman
+     * usage of PriorityQueue is inspired by rosettacode.org/wiki/huffman
      */
     public static Tree generateTree(long[] frequencies) {
       PriorityQueue<Tree> trees = new PriorityQueue<Tree>();
 
-      for(int i = 0; i < frequencies.length; i++) {
+      for(int i = 0; i < frequencies.length-3; i++) {
         if (frequencies[i] > 0)
           trees.offer(new Tree(frequencies[i], (char)(i+97), new Tree(), new Tree()));
       }
+          // set the special needs characters due to excercise
+          trees.offer(new Tree(frequencies[26], ' ', new Tree(), new Tree()));
+          trees.offer(new Tree(frequencies[27], '.', new Tree(), new Tree()));
+          trees.offer(new Tree(frequencies[28], '\n', new Tree(), new Tree()));
 
       if (trees.size() > 0) {
         while (trees.size() > 1) {
@@ -119,48 +123,31 @@ public class Tree implements Comparable<Tree> {
           trees.offer(new Tree(t1,t2)); // makes sure at least one elements stays
         }
       }
-      return trees.poll();
+      return trees.poll(); // return the final and last tree that contains all other trees
     }
 
-    /* to string method
-     * @return string representation
-     * inspired by rosettacode.org/wiki/huffman
+    /**
+     * helper method do build a hashmap
+     * @param tree is the huffman tree
+     * @param pre is used to build up the binary sequences
+     * @param pairs is the hashmap that will be set
      */
-      public static void printTree(Tree tree, StringBuffer pre) {
+    public static void encHelper(Tree tree, StringBuffer pre, Hashtable<Character, String> pairs) {
         if (tree.isEmpty())
           return;
 
         else {
           if (tree.getCh() != '\0') 
-            System.out.println(tree.getCh() + "\t" + tree.getFreq() + "\t" + pre);
+            pairs.put(tree.getCh(), pre.toString());
 
           // left 
           pre.append('0');
-          printTree(tree.getLeft(), pre);
+          encHelper(tree.getLeft(), pre, pairs);
           pre.deleteCharAt(pre.length()-1);
           
           // right
           pre.append('1');
-          printTree(tree.getRight(), pre);
-          pre.deleteCharAt(pre.length()-1);
-        }
-    }
-    public static void encHelper(Tree tree, StringBuffer pre, StringBuffer res) {
-        if (tree.isEmpty())
-          return;
-
-        else {
-          if (tree.getCh() != '\0') 
-            res.append(tree.getCh()); // + "\t" + pre + "\n");
-
-          // left 
-          pre.append('0');
-          encHelper(tree.getLeft(), pre, res);
-          pre.deleteCharAt(pre.length()-1);
-          
-          // right
-          pre.append('1');
-          encHelper(tree.getRight(), pre, res);
+          encHelper(tree.getRight(), pre, pairs);
           pre.deleteCharAt(pre.length()-1);
         }
     }
@@ -170,138 +157,53 @@ public class Tree implements Comparable<Tree> {
      * @param tree huffman tree to use
      */
     public static String encode(String str, Tree tree) {
-      Hashtable pairs = new Hashtable();
-      StringBuffer res = new StringBuffer();
-      encHelper(tree, new StringBuffer(), res);
+      if (tree.isEmpty())
+        throw new IllegalStateException("Tree is empty");
 
-      System.out.println(res);
-      return res.toString();
+      // we will put our characters and encoded binary sequence into a hashmap
+      Hashtable<Character, String> pairs = new Hashtable<Character, String>();
+      encHelper(tree, new StringBuffer(), pairs);
+
+      // then we build up a character array from our string and compare it to
+      // the hashmap, extracting the value and adding it to the output builder
+      StringBuilder result = new StringBuilder();
+      char[] cArray = str.toCharArray();
+
+      for(char c: cArray) {
+        result.append(pairs.get(c));
+      }
+
+      return result.toString();
     }
 
-    /** recursive encode helper method
-     *
-     * @param tree
-     * @param pre
-     * @param res is resultstring
-     * @return string of format char:encoding\n etc
+    /** method to decode a given string
+     * @param str huffman encoded string
+     * @param tree huffman tree to use
      */
- /*   public static String encodeHelper(Tree tree, StringBuffer pre, StringBuffer res) {
-        if (tree.isEmpty())
-          res.append(' ');
+    public static String decode(String str, Tree tree) {
+      if (tree.isEmpty())
+        throw new IllegalStateException("Tree is empty");
 
-        else {
-          if (tree.getCh() != '\0')  {
-            res.append(tree.getCh());
-            res.append(':');
-            res.append(pre);
-            res.append('\n');
-            System.out.println(res.toString());
-          }
+      StringBuilder result = new StringBuilder();
+      char[] cArray = str.toCharArray();
 
-          // left 
-          pre.append('0');
-          encodeHelper(tree.getLeft(), pre, res);
-          pre.deleteCharAt(pre.length()-1);
-          
-          // right
-          pre.append('1');
-          encodeHelper(tree.getRight(), pre, res);
-          pre.deleteCharAt(pre.length()-1);
+      // tmp tree to loop through the recursive structure
+      // 0 to go left
+      // 1 to go right
+      // until we reach an empty subtree
+      Tree tmp = tree;
+      for(char c: cArray) {
+        if (tmp.isEmpty() == false) {
+          if(c == '0')
+            tmp = tmp.getLeft();
+          if(c == '1')
+            tmp = tmp.getRight();
         }
-          return res.toString();
+        if(tmp.getLeft().isEmpty() && tmp.getRight().isEmpty()) {
+          result.append(tmp.getCh());
+          tmp = tree;
+        }
+      }
+      return result.toString();
     }
-}
-*/
-    /** method to generate arraylist of nodes
-     * for given alphabet a-z, whitespace, period, linecount
-     *
-     * maps whitespace to { = 123
-     * maps period to | = 124
-     * maps linecount to } = 125
-     */
-/*
-     * public ArrayList<Node> generateNodeList(long[] frequency) {
-
-      ArrayList<Node> nList = new ArrayList<Node>();
-      for(int i = 0; i < frequency.length; i++) {
-        nList.add(new Node(frequency[i], (char)(i+97)));
-      }
-      return nList;
-    }
-*/
-  /**
-   * sorting the list by overriding the given compare method for lists
-   */
-/* public void sortNList(ArrayList<Node> nList) {
-    Collections.sort(nList, new Comparator<Node>() {
-      @Override
-      public int compare(Node n1, Node n2) {
-        return (int)n1.getFreq() - (int)n2.getFreq(); 
-      }
-    });
-  }
-*/
-    /** method to generate huffman tree
-     * @param freqs long[] containing freq counts
-     * @return new huffman tree
-     */
-/*    public Tree genTree(long[] freq) {
-      Tree result = new Tree();
-      ArrayList<Node> nList = generateNodeList(freq);
-      sortNList(nList);
-      
-      // for lists with only 1 element the htree is trivial
-      if(nList.size() == 1) {
-        result.setRoot(nList.get(0));
-        return result;
-      }
-
-      // add first element to htree result
-      Node newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
-      Tree newLeft = new Tree(nList.get(0));
-      Tree newRight = new Tree(nList.get(1));
-      result.setRoot(newRoot);
-      result.setLeft(newLeft);
-      result.setRight(newRight);
-
-      // add middle elements
-      while (nList.size() > 1) {
-        newRoot = new Node(nList.get(0).getFreq() + nList.get(1).getFreq(),'\0');
-        result = new Tree(newRoot, result, new Tree(nList.get(1)));
-        nList.remove(1); // important to first remove 2nd element in the list!
-        nList.remove(0);
-        nList.add(newRoot);
-        sortNList(nList);
-      }
-
-      // add last element in case of uneven list
-      if (nList.size() == 1) {
-        newRoot = new Node(nList.get(0).getFreq() + result.getRoot().getFreq(),'\0');
-        result = new Tree(newRoot, result, new Tree(nList.get(0)));
-        nList.remove(0);
-      }
-
-      if (nList.size() != 0)
-        throw new IllegalStateException("Something went wrong!");
-
-      return result;
-    }
-*/
-    /** static method to use to generate tree
-     * @param freq list
-     * @return htree
-     */
-/*    public static Tree generateTree(long[] list) {
-      Tree t = new Tree();
-      return t.genTree(list);
-    }
-   
-    @Override
-      public String toString() {
-        if (isEmpty)
-          return "";
-        else
-          return "R: " + this.getRoot().toString() + "\n L: " + this.left.toString() + "\n R: " + this.right.toString();
-    }    
-	*/    
 }
