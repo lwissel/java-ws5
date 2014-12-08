@@ -1,3 +1,6 @@
+package ex2;
+
+import ex1.Person;
 /** Adapted BinarySearchTree class for Excercise 2 ws5
  * by Lennart Wissel
  * 

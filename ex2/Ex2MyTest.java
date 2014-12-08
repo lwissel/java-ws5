@@ -1,3 +1,6 @@
+package ex2;
+
+import ex1.Person;
 import static org.junit.Assert.*;
 import org.junit.*;
 import java.util.*;
